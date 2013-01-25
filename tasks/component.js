@@ -50,8 +50,8 @@ module.exports = function(grunt) {
 
     // Add in extra scripts during the build since Component makes
     // us define each and every file in our component to build it.
-    config.scripts = grunt.file.expandFiles( config.scripts || [] );
-    config.templates = grunt.file.expandFiles( config.templates || [] );
+    config.scripts = grunt.file.expand( config.scripts || [] );
+    config.templates = grunt.file.expand( config.templates || [] );
 
     if( config.paths ) {
       builder.addLookup(config.paths);
@@ -102,11 +102,7 @@ module.exports = function(grunt) {
       if( opts.scripts !== false ) {
         var jsFile = path.join(output, name + '.js');
         if( opts.standalone ) {
-          var string = grunt.template.process(template, {
-            data: obj,
-            config: config,
-            name: name
-          }, 'init');
+          var string = grunt.template.process(template, {data:obj, config: config, name: name});
           grunt.file.write(jsFile, string);
         }
         else {
