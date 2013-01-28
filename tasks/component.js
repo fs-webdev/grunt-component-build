@@ -100,16 +100,32 @@ module.exports = function(grunt) {
 
       // Write JS file
       if( opts.scripts !== false ) {
-        var jsFile = path.join(output, name + '.js');
-        if( opts.standalone ) {
-          obj.name = name;
-          obj.config = config;
-          var string = grunt.template.process(template, {data:obj});
-          grunt.file.write(jsFile, string);
+
+        var js = '';
+
+        if (opts.standalone) js += ';(function(){\n';
+        js += obj.require;
+        js += obj.js;
+
+        if (opts.standalone) {
+          var umd = [
+            'if (typeof exports == "object") {',
+            '  module.exports = require("' + name + '");',
+            '} else if (typeof define == "function" && define.amd) {',
+            '  define(require("' + name + '"));',
+            '} else {',
+            '  window["' + name + '"] = require("' + name + '");',
+            '}'
+          ];
+
+          js += umd.join('\n');
+          js += '})();';
         }
-        else {
-          grunt.file.write(jsFile, obj.require + obj.js);
-        }       
+        
+        var jsFile = path.join(output, name + '.js');
+
+        grunt.file.write(jsFile, js);
+   
       }
 
       done();
