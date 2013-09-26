@@ -109,7 +109,7 @@ module.exports = function(grunt) {
 
         if (opts.standalone) {
           var umd = [
-            'if (typeof exports == "object") {',
+            'if (typeof module == "object") {',
             '  module.exports = require("' + name + '");',
             '} else if (typeof define == "function" && define.amd) {',
             '  define(require("' + name + '"));',
