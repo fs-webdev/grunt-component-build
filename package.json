@@ -30,7 +30,7 @@
   "dependencies": {
     "coffee-script": "latest",
     "string-to-js": "latest",
-    "component-builder":"0.10.0"
+    "component-builder":"1.1.7"
   },
   "devDependencies": {
     "grunt": "~0.3.15"
